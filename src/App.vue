@@ -5,6 +5,14 @@ const mode = ref('lte');
 const limit = ref(15);
 const value = ref(20);
 
+const inputProps = computed(() => {
+  if (mode.value === 'lte') {
+    return { max: limit.value }
+  } else {
+    return { min: limit.value }
+  }
+})
+
 // const computedVal = computed({
 //   get() {
 //     return mode.value === 'lte' ? Math.min(value.value, limit.value) : Math.max(value.value, limit.value);
@@ -26,13 +34,12 @@ watch(limit, (newVal) => {
       <option value="lte">меньше чем или равно</option>
       <option value="gte">больше чем или равно</option>
     </select>
-    <input type="number" value="15" v-model="limit">
+    <input type="number" v-model="limit">
     <br>
     <hr>
-    <br>
     <p>Целевое значение:
-      <input v-if="mode ==='lte'" type="number" v-model="value" :max="limit">
-      <input v-if="mode ==='gte'" type="number" v-model="value" :min="limit">
+      <input type="number" v-bind="inputProps" v-model="value">
+      <!-- <input v-if="mode ==='gte'" type="number" v-model="value" :min="limit"> -->
     </p>
   </div>
 </template>
