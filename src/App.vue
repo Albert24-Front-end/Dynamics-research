@@ -1,20 +1,32 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import TimeTable from './components/TimeTable.vue';
 
 const mode = ref('lte');
 const limit = ref(15);
 const value = ref(20);
 
-const limitField = computed(() => mode.value === 'lte' ? 'max' : 'min')
+const limitField = computed(() => mode.value === 'lte' ? 'max' : 'min');
 
-// const computedVal = computed({
-//   get() {
-//     return mode.value === 'lte' ? Math.min(value.value, limit.value) : Math.max(value.value, limit.value);
-//   },
-//   set(newVal) {
-//     value.value = newVal;
-//   }
-// })
+const data = ref([
+  {from: 'Samarkand', to: 'Tashkent', price: 17500},
+  {from: 'Bukhara', to: 'Nukus', price: 14500},
+  {from: 'Tashkent', to: 'Nukus', price: 30000},
+  {from: 'Ferghana', to: 'Tashkent', price: 12000},
+  {from: 'Tashkent', to: 'Karshi', price: 15500},
+]);
+
+const columns = {
+  from: {
+    title: 'Откуда'
+  },
+  to: {
+    title: 'Куда'
+  },
+  price: {
+    title: 'Цена'
+  }
+};
 
 watch(limit, (newVal) => {
   value.value = newVal;
@@ -33,7 +45,8 @@ watch(limit, (newVal) => {
     <hr>
     <p>Целевое значение:
       <input type="number" :[limitField]="limit" v-model="value">
-      <!-- <input v-if="mode ==='gte'" type="number" v-model="value" :min="limit"> -->
     </p>
+    <hr>
+    <TimeTable :data="data" :columns="columns"></TimeTable>
   </div>
 </template>
