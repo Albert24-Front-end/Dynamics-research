@@ -5,13 +5,7 @@ const mode = ref('lte');
 const limit = ref(15);
 const value = ref(20);
 
-const inputProps = computed(() => {
-  if (mode.value === 'lte') {
-    return { max: limit.value }
-  } else {
-    return { min: limit.value }
-  }
-})
+const limitField = computed(() => mode.value === 'lte' ? 'max' : 'min')
 
 // const computedVal = computed({
 //   get() {
@@ -38,7 +32,7 @@ watch(limit, (newVal) => {
     <br>
     <hr>
     <p>Целевое значение:
-      <input type="number" v-bind="inputProps" v-model="value">
+      <input type="number" :[limitField]="limit" v-model="value">
       <!-- <input v-if="mode ==='gte'" type="number" v-model="value" :min="limit"> -->
     </p>
   </div>
