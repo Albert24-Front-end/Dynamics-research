@@ -9,11 +9,11 @@ const value = ref(20);
 const limitField = computed(() => mode.value === 'lte' ? 'max' : 'min');
 
 const data = ref([
-  {from: 'Samarkand', to: 'Tashkent', price: 17500},
-  {from: 'Bukhara', to: 'Nukus', price: 14500},
+  {from: 'Samarkand', to: 'Tashkent', price: 17500.50},
+  {from: 'Bukhara', to: 'Nukus', price: 14500.70},
   {from: 'Tashkent', to: 'Nukus', price: 30000},
   {from: 'Ferghana', to: 'Tashkent', price: 12000},
-  {from: 'Tashkent', to: 'Karshi', price: 15500},
+  {from: 'Tashkent', to: 'Karshi', price: 15500.30},
 ]);
 
 const columns = {
@@ -47,6 +47,8 @@ watch(limit, (newVal) => {
       <input type="number" :[limitField]="limit" v-model="value">
     </p>
     <hr>
-    <TimeTable :data="data" :columns="columns"></TimeTable>
+    <TimeTable :data="data" :columns="columns">
+      <template #td(price)="{value}">{{ Intl.NumberFormat("uz-UZ", {style: "currency", currency: "UZS"}).format(value) }}</template>
+    </TimeTable>
   </div>
 </template>

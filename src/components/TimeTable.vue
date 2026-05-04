@@ -23,7 +23,7 @@ const props = defineProps({
         <tbody>
             <tr v-for="item in data">
                 <td v-for="col in Object.keys(columns)">
-                    {{ item[col] }}
+                    <slot :name="`td(${col})`" v-bind="{item, value:item[col]}">{{ item[col] }}</slot>
                 </td>
             </tr>
         </tbody>
