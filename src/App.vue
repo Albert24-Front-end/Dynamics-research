@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import TimeTable from './components/TimeTable.vue';
+import DashboardGitlab from './components/DashboardGitlab.vue';
 
 const mode = ref('lte');
 const limit = ref(15);
@@ -31,6 +32,39 @@ const columns = {
 watch(limit, (newVal) => {
   value.value = newVal;
 })
+
+const dashboardConfig = [
+  {
+    "id": "filters",
+    // "title": "Dashboard panel",
+    "gridAttributes": {
+      "width": 6,
+      "height": 1,
+      "yPos": 0,
+      "xPos": 3
+    }
+  },
+  {
+    "id": "info",
+    // "title": "Another dashboard panel",
+    "gridAttributes": {
+      "width": 3,
+      "height": 2,
+      "yPos": 1,
+      "xPos": 1
+    }
+  },
+  {
+    "id": "more",
+    // "title": "I can be placed anywhere on the grid",
+    "gridAttributes": {
+      "width": 4,
+      "height": 1,
+      "yPos": 2,
+      "xPos": 7
+    }
+  },
+]
 </script>
 
 <template>
@@ -50,5 +84,9 @@ watch(limit, (newVal) => {
     <TimeTable :data="data" :columns="columns">
       <template #td(price)="{value}">{{ Intl.NumberFormat("uz-UZ", {style: "currency", currency: "UZS"}).format(value) }}</template>
     </TimeTable>
+    <hr>
+    <DashboardGitlab :config="dashboardConfig">
+      <template #panel(filters)>My custom stuff</template>
+    </DashboardGitlab>
   </div>
 </template>

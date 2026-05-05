@@ -15,14 +15,14 @@ const props = defineProps({
     <table>
         <thead>
             <tr>
-                <th v-for="col in Object.values(columns)">
+                <th v-for="col in Object.values(columns)" :key="col.price">
                     {{ col.title }}
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="item in data">
-                <td v-for="col in Object.keys(columns)">
+                <td v-for="col in Object.keys(columns)" :key="col.price">
                     <slot :name="`td(${col})`" v-bind="{item, value:item[col]}">{{ item[col] }}</slot>
                 </td>
             </tr>
