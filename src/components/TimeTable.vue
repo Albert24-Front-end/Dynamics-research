@@ -1,28 +1,22 @@
-<script setup lang="ts">
-const props = defineProps({
-    data: {
-        type: Array,
-        required: true,
-    },
-    columns: {
-        type: Object,
-        req: true,
-    }
-})
+<script setup lang="ts" generic="Cols extends string">
+const props = defineProps<{
+    data: Record<Cols, unknown>[],
+    columns: Record<Cols, {title: string}>
+}>()
 </script>
 
 <template>
     <table>
         <thead>
             <tr>
-                <th v-for="col in Object.values(columns)" :key="col.price">
-                    {{ col.title }}
+                <th v-for="col in (Object.keys(columns) as Cols[])" :key="col">
+                    {{ columns[col].title}}
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in data">
-                <td v-for="col in Object.keys(columns)" :key="col.price">
+            <tr v-for="(item, index) in data" :key="index">
+                <td v-for="col in (Object.keys(columns) as Cols[])" :key="col">
                     <slot :name="`td(${col})`" v-bind="{item, value:item[col]}">{{ item[col] }}</slot>
                 </td>
             </tr>

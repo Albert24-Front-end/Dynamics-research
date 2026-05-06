@@ -27,7 +27,7 @@ const columns = {
   price: {
     title: 'Цена'
   }
-};
+} as const;
 
 watch(limit, (newVal) => {
   value.value = newVal;
@@ -64,7 +64,7 @@ const dashboardConfig = [
       "xPos": 7
     }
   },
-]
+] as const;
 </script>
 
 <template>
@@ -82,7 +82,7 @@ const dashboardConfig = [
     </p>
     <hr>
     <TimeTable :data="data" :columns="columns">
-      <template #td(price)="{value}">{{ Intl.NumberFormat("uz-UZ", {style: "currency", currency: "UZS"}).format(value) }}</template>
+      <template #td(price)="{value}">{{ Intl.NumberFormat("uz-UZ", {style: "currency", currency: "UZS"}).format(Number(value)) }}</template>
     </TimeTable>
     <hr>
     <DashboardGitlab :config="dashboardConfig">

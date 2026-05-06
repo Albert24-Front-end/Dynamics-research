@@ -1,12 +1,27 @@
-<script setup>
+<script setup lang="ts" generic="PanelNames extends string">
 import { computed } from 'vue';
 
-const props = defineProps({
-    config: {
-        type: Array,
-        required: true
-    }
-})
+const props = defineProps<{
+    config: readonly {
+        id: PanelNames,
+        gridAttributes: {
+            xPos: number,
+            yPos: number,
+            width: number,
+            height: number
+        }
+    }[]
+}>()
+
+type PanelSlotNames = `panel(${PanelNames})`
+
+defineSlots<{
+    [K in PanelSlotNames]: ({
+        attr,
+    }: {
+        attr: { xPos: number; yPos: number; width: number; height: number }
+    }) => unknown
+}>()
 
 // const panelStyles = computed(() => {
 //     return Object.fromEntries(props.config.map((entry) => [entry.id, {
@@ -22,7 +37,7 @@ const rows = computed(() =>
 )
 
 const gridAreas = computed(() => {
-    const grid = Array.from({length: rows.value}, (_, i) => Array.from({length: columns}).fill('.'));
+    const grid = Array.from({length: rows.value}, () => Array.from({length: columns}).fill('.'));
 
     props.config.map((entry) => {
         const { id, gridAttributes } = entry;
